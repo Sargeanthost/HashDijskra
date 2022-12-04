@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileRead {
+    Pattern whitespace = Pattern.compile("\\s", Pattern.UNICODE_CHARACTER_CLASS);
 
     /**
      * Reads in strings from a file {@code pathToFile} that match {@code pattern}.
@@ -16,7 +17,6 @@ public class FileRead {
      * @return returns a list of strings that match the given regex from the given file
      */
     public static List<String> parseValidWordsFromFile(String pathToFile, String pattern) {
-        //"[^\\x27\\x2D\\x41-\\x5a\\x61-\\x7a]"
         Pattern allowedWords = Pattern.compile(pattern);
         List<String> cleanWords = new ArrayList<>();
 
@@ -24,11 +24,16 @@ public class FileRead {
             String line;
             while ((line = br.readLine()) != null) {//valid line checking
                 if (!line.isEmpty()) {
-                    String[] rawWords = line.split("\\s+");//raw word
+                    String[] rawWords = line.split("\\s");//raw
+                    // words in current line
                     for (String word : rawWords) {
                         Matcher matcher = allowedWords.matcher(word);
                         if (!matcher.matches()) {
-                            cleanWords.add(word.replaceAll(allowedWords.pattern(), ""));
+                            //replace non regex chars with empty string
+                            String potentialWord = word.replaceAll(allowedWords.pattern(), "");
+                            if(!potentialWord.isEmpty()) {
+                                cleanWords.add(potentialWord);
+                            }
                         }
                     }
                 }
