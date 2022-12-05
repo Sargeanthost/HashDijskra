@@ -19,10 +19,29 @@ public class Dijskra {
      * @return returns a list of weights from the source node to each other node
      */
 
-    public static List<Integer> dijskra(int[][] graph, int sourceNode, int graphSize){
-        List<Integer> shortestPath = new ArrayList<>();
+    public static int[] dijskra(int[][] graph, int sourceNode, int graphSize){
+        int[] shortestPath = new int[graphSize];
+        int[] visitedNodes = new int[graphSize];//this or inverse, have to look up
+        for(int index = 0; index < shortestPath.length; index++){
+            if(index == sourceNode){
+                continue;
+            }
+            shortestPath[index] = Integer.MAX_VALUE;
+        }
+        //get row sourcenode
+        // for each column, if there is an edge wheight add it and the current nodes value together. if less than
+        // that nodes saved value in shortest path, update.
+
+
 
         return shortestPath;
     }
-    //dfs
+
+    public void run(int startingNode) {
+        if(startingNode >= graphSize || startingNode < 0){
+            System.out.println("Invalid starting node for engling graph!");
+            return;
+        }
+        dijskra(graph, startingNode, 10);
+    }
 }
