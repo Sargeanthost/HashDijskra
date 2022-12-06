@@ -41,6 +41,10 @@ public class Dijskra {
         while (priorityQueue.size() > 0) {
             Node currentNode = priorityQueue.poll();//current shortest. at start, it will be sourceNode
             currentNode.setHasBeenVisited();
+            if (currentNode.equals(listOfNodes.get(destNode))) {
+                //cant change our current value
+                break;//only breaks out of if lol
+            }
             for (int neighbor = 0; neighbor < graphSize; neighbor++) {
                 //current column, until column exhausted ("neighbor" = neighbor index, value = distance from me to u
                 Node possibleNeighborNode = listOfNodes.get(neighbor);
@@ -58,10 +62,7 @@ public class Dijskra {
                     priorityQueue.add(listOfNodes.get(neighbor));
                 }
             }
-            if (currentNode.equals(listOfNodes.get(destNode))) {
-                backTrackPath(currentNode);
-                break;
-            }
+
         }
         return backTrackPath(listOfNodes.get(destNode));
     }
@@ -72,6 +73,7 @@ public class Dijskra {
         Node currentNode = node;
         while (currentNode != null) {
             if (currentNode.getPrevious() == null) {
+                pathList.add(currentNode);
                 break;
             }
             pathList.add(currentNode);
