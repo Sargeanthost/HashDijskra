@@ -28,10 +28,6 @@ public class Dijskra {
                 Node node = new Node(row, 0);
                 listOfNodes.add(node);
                 continue;
-            } else if (row == destNode) {
-                Node node = new Node(row, Integer.MAX_VALUE);
-                listOfNodes.add(node);
-                continue;
             }
             Node node = new Node(row, Integer.MAX_VALUE - 1);//ensures this comes before dest node
             listOfNodes.add(node);
