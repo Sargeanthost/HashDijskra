@@ -7,8 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileRead {
-    Pattern whitespace = Pattern.compile("\\s", Pattern.UNICODE_CHARACTER_CLASS);
-
     /**
      * Reads in strings from a file {@code pathToFile} that match {@code pattern}.
      *

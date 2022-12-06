@@ -1,7 +1,5 @@
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class EnglingHashTable {
@@ -114,7 +112,6 @@ public class EnglingHashTable {
 
     public Map.Entry<String, Integer> getFarthestInsert() {
         int maxValue = (Collections.max(wordOffsetList.values()));
-        String key = "";
         Map.Entry<String, Integer> farthestInsert = Map.entry("-1", -1);
 
         for (Map.Entry<String, Integer> entry : wordOffsetList.entrySet()) {

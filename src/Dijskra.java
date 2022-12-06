@@ -20,7 +20,6 @@ public class Dijskra {
      * @param graphSize the size of the nxn graph
      * @return returns a list of weights from the source node to each other node
      */
-
     public List<Node> englingDijskra(int[][] graph, int sourceNode, int destNode, int graphSize) {
         List<Node> listOfNodes = new ArrayList<>();
         for (int row = 0; row < graphSize; row++) {
@@ -39,19 +38,18 @@ public class Dijskra {
             currentNode.setHasBeenVisited();
             if (currentNode.equals(listOfNodes.get(destNode))) {
                 //cant change our current value
-                break;//only breaks out of if lol
+                break;
             }
             for (int neighbor = 0; neighbor < graphSize; neighbor++) {
                 //current column, until column exhausted ("neighbor" = neighbor index, value = distance from me to u
                 Node possibleNeighborNode = listOfNodes.get(neighbor);
-                //my current distance plus my distance to you
                 int possibleDistance = graph[currentNode.getNodeNameIndex()][neighbor] + currentNode.getDistance();
                 if (graph[currentNode.getNodeNameIndex()][neighbor] != 0 && !possibleNeighborNode.hasBeenVisited()
                     && neighbor != currentNode.getNodeNameIndex()
                     && possibleDistance < possibleNeighborNode.getDistance()) {
                     possibleNeighborNode.setPrevious(currentNode);
                     possibleNeighborNode.setDistance(possibleDistance);
-                    //reorder, since java has these methods private
+                    //reorder, since java has these methods private, even tho O(n), but we're not racing
                     if (!priorityQueue.remove(listOfNodes.get(neighbor))) {
                         System.out.println("Something went wrong removing previous old value for node in pQueue");
                     }
@@ -79,6 +77,12 @@ public class Dijskra {
         return pathList;
     }
 
+    /**
+     * Run Dijkstra's algorithm on Engling's graph
+     * @param startingNode the starting node index. i.e. A=0, D=9
+     * @param destNode the goal node
+     * @return returns the shortest path from startingNode to destNode
+     */
     public List<Node> run(int startingNode, int destNode) {
         if (startingNode >= graphSize || startingNode < 0) {
             System.out.println("Invalid starting node for engling graph!");
@@ -94,6 +98,12 @@ public class Dijskra {
         private int distance;
         private boolean hasBeenVisited = false;
 
+        /**
+         * Dijskra specific node.
+         *
+         * @param nodeNameIndex the index of the graph's row
+         * @param distance the distance from the starting node to this node
+         */
         Node(int nodeNameIndex, int distance) {
             this.nodeNameIndex = nodeNameIndex;
             this.distance = distance;
@@ -129,16 +139,16 @@ public class Dijskra {
 
         public static String getNodeName(int index) {
             return switch (index) {
-                case 0 -> "A";
+                case 9 -> "D";
+                case 6 -> "I";
                 case 1 -> "J";
-                case 2 -> "M";
-                case 3 -> "R";
                 case 4 -> "K";
                 case 5 -> "S";
-                case 6 -> "I";
-                case 7 -> "N";
                 case 8 -> "T";
-                case 9 -> "D";
+                case 3 -> "R";
+                case 0 -> "A";
+                case 2 -> "M";
+                case 7 -> "N";
                 default -> throw new IllegalStateException("Unexpected value: " + index);
             };
         }

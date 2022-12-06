@@ -8,7 +8,7 @@ import java.util.Set;
 public class Main {
     //TODO change this to relative path from Main.java
     private static final String edgarPath =
-        "C:\\Users\\sarge\\Documents\\School\\CS 2223\\HW5\\EdgarAllanPoeBellsB2022groomed.txt";
+        "..\\EdgarAllanPoeBellsB2022groomed.txt";
     private static final String edgarRegex = "[^'\\-A-Za-z]";
     private static List<String> words;
 
@@ -23,7 +23,7 @@ public class Main {
     }
 
     private static void hashTable() {
-        //remove duplicates, preserving order
+        //remove duplicates, preserving order.
         Set<String> set = new LinkedHashSet<>(words);
         List<String> uniqueWords = new ArrayList<>(set);
         //create table

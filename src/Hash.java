@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Hash {
     /**
      * Hash function from Levitin.
@@ -17,22 +14,4 @@ public class Hash {
         }
         return h;
     }
-
-    /**
-     * Hashes all strings found in {@code path} matching {@code regex} using {@link #hashString(String)}.
-     *
-     * @param path  The path containing strings
-     * @param regex the pattern to match on
-     * @return returns a list of hashes corresponding to each valid word
-     */
-
-    public static List<Integer> hashStringsFromFile(String path, String regex) {
-        List<String> wordsToHash = FileRead.parseValidWordsFromFile(path, regex);
-        List<Integer> hashes = new ArrayList<>();
-        for (String word : wordsToHash) {
-            hashes.add(hashString(word));
-        }
-        return hashes;
-    }
-
 }
