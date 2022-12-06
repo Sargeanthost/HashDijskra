@@ -22,43 +22,32 @@ public class Dijskra {
      */
 
     public List<Node> englingDijskra(int[][] graph, int sourceNode, int destNode, int graphSize) {
-        //        List<Map.Entry<Integer, Integer>> dumpList = new ArrayList<>();
-        //        PriorityQueue<Map.Entry<Integer, Integer>> pQueue =
-        //            new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());//<node, distance>. sort low high
         List<Node> listOfNodes = new ArrayList<>();
         for (int row = 0; row < graphSize; row++) {
-            //            String name = switch (row) {
-            //                case 0 -> "A";
-            //                case 1 -> "J";
-            //                case 2 -> "M";
-            //                case 3 -> "R";
-            //                case 4 -> "K";
-            //                case 5 -> "S";
-            //                case 6 -> "I";
-            //                case 7 -> "N";
-            //                case 8 -> "T";
-            //                case 9 -> "D";
-            //                default -> throw new IllegalStateException("Unexpected value: " + row);
-            //            };
             if (row == sourceNode) {
                 Node node = new Node(row, 0);
+                listOfNodes.add(node);
+                continue;
+            } else if (row == destNode) {
+                Node node = new Node(row, Integer.MAX_VALUE);
+                listOfNodes.add(node);
+                continue;
             }
-            Node node = new Node(row, Integer.MAX_VALUE);
+            Node node = new Node(row, Integer.MAX_VALUE - 1);//ensures this comes before dest node
             listOfNodes.add(node);
         }
-        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        priorityQueue.addAll(listOfNodes);
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(listOfNodes);
 
         while (priorityQueue.size() > 0) {
-            //TODO compare to destnode
-            Node currentNode = priorityQueue.poll();//current shortest. at start it will be sourceNode
+            Node currentNode = priorityQueue.poll();//current shortest. at start, it will be sourceNode
             currentNode.setHasBeenVisited();
             for (int neighbor = 0; neighbor < graphSize; neighbor++) {
                 //current column, until column exhausted ("neighbor" = neighbor index, value = distance from me to u
                 Node possibleNeighborNode = listOfNodes.get(neighbor);
                 //my current distance plus my distance to you
                 int possibleDistance = graph[currentNode.getNodeNameIndex()][neighbor] + currentNode.getDistance();
-                if (!possibleNeighborNode.hasBeenVisited() && neighbor != currentNode.getNodeNameIndex()
+                if (graph[currentNode.getNodeNameIndex()][neighbor] != 0 && !possibleNeighborNode.hasBeenVisited()
+                    && neighbor != currentNode.getNodeNameIndex()
                     && possibleDistance < possibleNeighborNode.getDistance()) {
                     possibleNeighborNode.setPrevious(currentNode);
                     possibleNeighborNode.setDistance(possibleDistance);
@@ -81,42 +70,29 @@ public class Dijskra {
         List<Node> pathList = new ArrayList<>();
 
         Node currentNode = node;
-        while (node != null) {
+        while (currentNode != null) {
+            if (currentNode.getPrevious() == null) {
+                break;
+            }
             pathList.add(currentNode);
-            currentNode = node.getPrevious();
+            currentNode = currentNode.getPrevious();
         }
         System.out.println();
         return pathList;
     }
 
-    public static String getNodeName(int index) {
-        return switch (index) {
-            case 0 -> "A";
-            case 1 -> "J";
-            case 2 -> "M";
-            case 3 -> "R";
-            case 4 -> "K";
-            case 5 -> "S";
-            case 6 -> "I";
-            case 7 -> "N";
-            case 8 -> "T";
-            case 9 -> "D";
-            default -> throw new IllegalStateException("Unexpected value: " + index);
-        };
-    }
-
-    public void run(int startingNode, int destNode) {
+    public List<Node> run(int startingNode, int destNode) {
         if (startingNode >= graphSize || startingNode < 0) {
             System.out.println("Invalid starting node for engling graph!");
-            return;
+            return null;
         }
-        englingDijskra(englingGraph, startingNode, destNode, 10);
+        return englingDijskra(englingGraph, startingNode, destNode, 10);
     }
 
-    class Node implements Comparable<Node> {
+    static class Node implements Comparable<Node> {
         private Node previous;
 
-        private int nodeNameIndex;
+        private final int nodeNameIndex;
         private int distance;
         private boolean hasBeenVisited = false;
 
@@ -151,6 +127,22 @@ public class Dijskra {
 
         Node getPrevious() {
             return previous;
+        }
+
+        public static String getNodeName(int index) {
+            return switch (index) {
+                case 0 -> "A";
+                case 1 -> "J";
+                case 2 -> "M";
+                case 3 -> "R";
+                case 4 -> "K";
+                case 5 -> "S";
+                case 6 -> "I";
+                case 7 -> "N";
+                case 8 -> "T";
+                case 9 -> "D";
+                default -> throw new IllegalStateException("Unexpected value: " + index);
+            };
         }
 
         @Override

@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         hash();
         hashTable();
-        //        dijkstra();
+        dijkstra();
     }
 
     public static void hash() {
@@ -53,10 +53,27 @@ public class Main {
             "The farthest insert is \"" + farthestInsert.getKey() + "\" with " + farthestInsert.getValue() + " shifts");
     }
 
-        private static void dijkstra() {
-            Dijskra englingMatrix = new Dijskra();
-            Scanner sc = new Scanner(System.in);
-            System.out.println("What node do you want to start at? Choose a number 0 through 9: ");
-            englingMatrix.run(sc.nextInt());
+    private static void dijkstra() {
+        Dijskra englingMatrix = new Dijskra();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What node do you want to start at and stop at? Choose a number 0 through 9 for both: ");
+        List<Dijskra.Node> shortestPath = englingMatrix.run(sc.nextInt(), sc.nextInt());
+        printPath(shortestPath);
+    }
+
+    private static void printPath(List<Dijskra.Node> nodeList) {
+        System.out.println(
+            "The shortest path from " + Dijskra.Node.getNodeName(nodeList.get(nodeList.size() - 1).getNodeNameIndex())
+            + " to " + Dijskra.Node.getNodeName(nodeList.get(0).getNodeNameIndex()) + " with distance " + nodeList.get(
+                0).getDistance());
+        for (int i = 0; i < nodeList.size(); i++) {
+            Dijskra.Node node = nodeList.get(i);
+            if (i == nodeList.size() - 1) {
+                System.out.print(Dijskra.Node.getNodeName(node.getNodeNameIndex()));
+                continue;
+            }
+            System.out.print(Dijskra.Node.getNodeName(node.getNodeNameIndex()) + " > ");
         }
+        System.out.println();
+    }
 }
