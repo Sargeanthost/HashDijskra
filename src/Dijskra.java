@@ -79,8 +79,9 @@ public class Dijskra {
 
     /**
      * Run Dijkstra's algorithm on Engling's graph
+     *
      * @param startingNode the starting node index. i.e. A=0, D=9
-     * @param destNode the goal node
+     * @param destNode     the goal node
      * @return returns the shortest path from startingNode to destNode
      */
     public List<Node> run(int startingNode, int destNode) {
@@ -102,7 +103,7 @@ public class Dijskra {
          * Dijskra specific node.
          *
          * @param nodeNameIndex the index of the graph's row
-         * @param distance the distance from the starting node to this node
+         * @param distance      the distance from the starting node to this node
          */
         Node(int nodeNameIndex, int distance) {
             this.nodeNameIndex = nodeNameIndex;

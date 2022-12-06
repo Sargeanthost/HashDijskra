@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -62,10 +63,11 @@ public class Main {
     }
 
     private static void printPath(List<Dijskra.Node> nodeList) {
+        Collections.reverse(nodeList);
         System.out.println(
-            "The shortest path from " + Dijskra.Node.getNodeName(nodeList.get(nodeList.size() - 1).getNodeNameIndex())
-            + " to " + Dijskra.Node.getNodeName(nodeList.get(0).getNodeNameIndex()) + " with distance " + nodeList.get(
-                0).getDistance());
+            "The shortest path from " +Dijskra.Node.getNodeName(nodeList.get(0).getNodeNameIndex())
+            + " to " +  Dijskra.Node.getNodeName(nodeList.get(nodeList.size() - 1).getNodeNameIndex()) + " with distance " + nodeList.get(
+                nodeList.size()-1).getDistance());
         for (int i = 0; i < nodeList.size(); i++) {
             Dijskra.Node node = nodeList.get(i);
             if (i == nodeList.size() - 1) {
