@@ -17,6 +17,7 @@ public class Main {
         hash();
         hashTable();
         dijkstra();
+        //0 start 9 end gives dijskra as path
     }
 
     public static void hash() {
@@ -27,12 +28,11 @@ public class Main {
         //remove duplicates, preserving order.
         Set<String> set = new LinkedHashSet<>(words);
         List<String> uniqueWords = new ArrayList<>(set);
-        //create table
         EnglingHashTable hashTable = new EnglingHashTable(293);
         for (String word : uniqueWords) {
             hashTable.insert(word);
         }
-        //print table
+
         System.out.printf("%-32s%-32s%-32s\n", "Hash Address", "Hashed Word", "Hash Value");
         for (int index = 0; index < hashTable.getSize(); index++) {
             System.out.printf("%-32d%-32s%-32d\n", index, hashTable.getIndex(index),

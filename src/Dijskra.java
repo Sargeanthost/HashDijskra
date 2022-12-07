@@ -28,35 +28,30 @@ public class Dijskra {
                 listOfNodes.add(node);
                 continue;
             }
-            Node node = new Node(row, Integer.MAX_VALUE - 1);//ensures this comes before dest node
+            Node node = new Node(row, Integer.MAX_VALUE);
             listOfNodes.add(node);
         }
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>(listOfNodes);
 
         while (priorityQueue.size() > 0) {
             Node currentNode = priorityQueue.poll();//current shortest. at start, it will be sourceNode
-            currentNode.setHasBeenVisited();
             if (currentNode.equals(listOfNodes.get(destNode))) {
-                //cant change our current value
                 break;
             }
             for (int neighbor = 0; neighbor < graphSize; neighbor++) {
-                //current column, until column exhausted ("neighbor" = neighbor index, value = distance from me to u
                 Node possibleNeighborNode = listOfNodes.get(neighbor);
                 int possibleDistance = graph[currentNode.getNodeNameIndex()][neighbor] + currentNode.getDistance();
-                if (graph[currentNode.getNodeNameIndex()][neighbor] != 0 && !possibleNeighborNode.hasBeenVisited()
-                    && neighbor != currentNode.getNodeNameIndex()
+                if (graph[currentNode.getNodeNameIndex()][neighbor] != 0 && neighbor != currentNode.getNodeNameIndex()
                     && possibleDistance < possibleNeighborNode.getDistance()) {
                     possibleNeighborNode.setPrevious(currentNode);
                     possibleNeighborNode.setDistance(possibleDistance);
-                    //reorder, since java has these methods private, even tho O(n), but we're not racing
+                    //reorder, since java has these methods private, even tho O(n), but we're not racing here
                     if (!priorityQueue.remove(listOfNodes.get(neighbor))) {
                         System.out.println("Something went wrong removing previous old value for node in pQueue");
                     }
                     priorityQueue.add(listOfNodes.get(neighbor));
                 }
             }
-
         }
         return backTrackPath(listOfNodes.get(destNode));
     }
@@ -85,7 +80,7 @@ public class Dijskra {
      * @return returns the shortest path from startingNode to destNode
      */
     public List<Node> run(int startingNode, int destNode) {
-        if (startingNode >= graphSize || startingNode < 0) {
+        if (startingNode >= graphSize || startingNode < 0 || destNode >= graphSize || destNode < 0) {
             System.out.println("Invalid starting node for engling graph!");
             return null;
         }
@@ -94,10 +89,8 @@ public class Dijskra {
 
     static class Node implements Comparable<Node> {
         private Node previous;
-
         private final int nodeNameIndex;
         private int distance;
-        private boolean hasBeenVisited = false;
 
         /**
          * Dijskra specific node.
@@ -112,14 +105,6 @@ public class Dijskra {
 
         public int getNodeNameIndex() {
             return nodeNameIndex;
-        }
-
-        void setHasBeenVisited() {
-            hasBeenVisited = true;
-        }
-
-        boolean hasBeenVisited() {
-            return hasBeenVisited;
         }
 
         void setDistance(int distance) {

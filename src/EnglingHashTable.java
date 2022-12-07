@@ -25,11 +25,6 @@ public class EnglingHashTable {
         while (!(array[index % size] == null)) {//circular indexing
             index++;
             distance++;
-            //error handling
-            if (index == 2 * size) {
-                System.out.println("Array Filled!");
-                break;
-            }
         }
         array[index % size] = element;
         occupied++;
